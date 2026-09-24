@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap");
+
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+
+/* Safelist dynamically-constructed utility classes (bg-status-${color}) */
+@source inline("bg-status-green bg-status-amber bg-status-red text-status-green text-status-amber text-status-red");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -10,15 +15,11 @@
  * The @theme inline block maps CSS custom properties to Tailwind utility
  * classes (e.g. --color-primary -> bg-primary, text-primary).
  *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * The :root and .dark blocks define the actual color values.
  */
 
 @theme inline {
+  /* ── Radius ─────────────────────────────────────────── */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -26,6 +27,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* ── Semantic Colors (shadcn/ui) ────────────────────── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -59,86 +62,625 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ── INFIELD Brand Colors (Matching Reference) ──────── */
+  --color-deep-navy: #0B1930;
+  --color-navy: #112340;
+  --color-primary-hover: #0044CC;
+  --color-light-blue: #F4F7FB;
+  --color-soft-blue: #EBF1FA;
+  --color-hero: #F7FAFC;
+  --color-body-grey: #64748B;
+  --color-danger-soft: #FEF2F2;
+  --color-success-soft: #F0FDF4;
+
+  /* Status */
+  --color-status-green: #22C55E;
+  --color-status-amber: #F59E0B;
+  --color-status-red: #EF4444;
+  --color-success: #16A34A;
+
+  /* Text on dark backgrounds */
+  --color-topbar: #E2E8F0;
+  --color-footer: #CBD5E1;
+  --color-footer-muted: #94A3B8;
+  --color-banner-muted: #E2E8F0;
+  --color-form-label: #F8FAFC;
+  --color-form-error: #F87171;
+  --color-form-muted: #94A3B8;
+
+  /* Borders */
+  --color-footer-border: rgb(255 255 255 / 0.1);
+  --color-border-light: #E2E8F0;
+
+  /* Shadows (Softer, cleaner like reference) */
+  --shadow-app: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-button: 0 4px 14px 0 rgb(0 102 255 / 0.39);
+  --shadow-nav: 0 2px 10px rgb(0 0 0 / 0.05);
+  --shadow-card: 0 10px 30px -5px rgb(0 0 0 / 0.05);
+  --shadow-blue: 0 10px 30px -5px rgb(0 102 255 / 0.2);
+
+  /* Font */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
+/* ── Light theme variables ────────────────────────────── */
+
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --radius: 0.5rem;
+  --background: #FFFFFF;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #0055FF; /* Vibrant reference blue */
+  --primary-foreground: #FFFFFF;
+  --secondary: #F8FAFC;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #F3F6FD;
+  --accent-foreground: #0B1F4B;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2D5BE3;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: #FAFBFE;
+  --sidebar-foreground: #0B1F4B;
+  --sidebar-primary: #2D5BE3;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F3F6FD;
+  --sidebar-accent-foreground: #0B1F4B;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: #2D5BE3;
 }
 
+/* ── Dark theme variables ─────────────────────────────── */
+
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
+  --background: #06132F;
+  --foreground: #F0F4FF;
+  --card: #0B1F4B;
+  --card-foreground: #F0F4FF;
+  --popover: #0B1F4B;
+  --popover-foreground: #F0F4FF;
+  --primary: #6B9AFF;
+  --primary-foreground: #06132F;
+  --secondary: #132B5C;
+  --secondary-foreground: #F0F4FF;
+  --muted: #132B5C;
+  --muted-foreground: #8FA3C4;
+  --accent: #132B5C;
+  --accent-foreground: #F0F4FF;
+  --destructive: #F87171;
+  --destructive-foreground: #FFFFFF;
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 15%);
+  --ring: #6B9AFF;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --sidebar: #0B1F4B;
+  --sidebar-foreground: #F0F4FF;
+  --sidebar-primary: #6B9AFF;
+  --sidebar-primary-foreground: #06132F;
+  --sidebar-accent: #132B5C;
+  --sidebar-accent-foreground: #F0F4FF;
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: #6B9AFF;
 }
+
+/* ── Base layer ───────────────────────────────────────── */
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
-
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* ==========================================================
+   INFIELD – Custom component classes
+   ========================================================== */
+
+/* ── Layout ───────────────────────────────────────────── */
+
+.site-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .site-container { padding-inline: 1.5rem; }
+}
+@media (min-width: 1024px) {
+  .site-container { padding-inline: 2rem; }
+}
+
+.section {
+  padding-block: 3.5rem;
+}
+@media (min-width: 768px) {
+  .section { padding-block: 5rem; }
+}
+@media (min-width: 1024px) {
+  .section { padding-block: 6rem; }
+}
+
+/* ── Typography ───────────────────────────────────────── */
+
+.hero-title {
+  font-size: clamp(1.875rem, 3.6vw + 0.5rem, 3.625rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--color-foreground);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-foreground);
+}
+
+.text-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-body-grey);
+}
+
+/* ── Phone Mockup ─────────────────────────────────────── */
+
+.phone-shell {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 2rem;
+  padding-bottom: 0.5rem;
+  box-shadow:
+    0 20px 60px rgb(0 0 0 / 0.12),
+    0 4px 16px rgb(0 0 0 / 0.06);
+  overflow: hidden;
+}
+
+/* ── Feature Card ─────────────────────────────────────── */
+
+.feature-card {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.feature-card:hover {
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.1);
+  transform: translateY(-2px);
+}
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.feature-card p {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+/* ── Icon Box ─────────────────────────────────────────── */
+
+.icon-box {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  background: var(--color-soft-blue);
+  color: var(--color-primary);
+}
+
+/* ── Photo Frame ──────────────────────────────────────── */
+
+.photo-frame {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+/* ── Mini Feature (Solution section tiles) ────────────── */
+
+.mini-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+.mini-feature svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+.mini-feature b {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.mini-feature span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+/* ── Step Card (How it works) ─────────────────────────── */
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-app);
+}
+.step-card > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.step-card p {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+}
+
+/* ── Staff Card ───────────────────────────────────────── */
+
+.staff-card {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.staff-card:hover {
+  transform: translateY(-2px);
+}
+.staff-card h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin-top: 0.75rem;
+}
+
+/* ── Avatar (Staff card initials circle) ──────────────── */
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  margin: 0.75rem auto 0;
+  border-radius: 9999px;
+  background: var(--color-soft-blue);
+  color: var(--color-primary);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+/* ── Nearest Badge ────────────────────────────────────── */
+
+.nearest {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Status Dot ───────────────────────────────────────── */
+
+.status-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+/* ── Connecting Dot (call animation) ──────────────────── */
+
+.connecting-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-status-green);
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+/* ── Dashboard Mockup ─────────────────────────────────── */
+
+.dashboard-mockup {
+  margin-top: 3rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
+.dashboard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+.dashboard-top h3 {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-foreground);
+}
+
+.dashboard-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: var(--color-primary);
+}
+.dashboard-row:hover {
+  background: var(--color-soft-blue);
+}
+.dashboard-row b {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  display: block;
+}
+.dashboard-row p {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+.dashboard-row > svg:last-child {
+  margin-left: auto;
+  color: var(--color-muted-foreground);
+}
+
+/* ── Live Pill ────────────────────────────────────────── */
+
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: var(--color-success-soft);
+  color: var(--color-status-green);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.live-pill i {
+  display: inline-block;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: var(--color-status-green);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* ── Overlays ─────────────────────────────────────────── */
+
+.bg-banner-overlay {
+  background: rgb(6 19 47 / 0.82);
+}
+
+.bg-cta-overlay {
+  background: linear-gradient(
+    to top,
+    rgb(6 19 47 / 0.92) 0%,
+    rgb(6 19 47 / 0.45) 100%
+  );
+}
+
+/* ── Form Card (on dark background) ───────────────────── */
+
+.form-card {
+  color: rgb(255 255 255 / 0.9);
+}
+.form-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+}
+/* Lighten the eyebrow text-primary on dark bg */
+.form-card > .text-primary,
+.form-card > p:first-child {
+  color: #93B4FF;
+}
+
+/* ── Form Input ───────────────────────────────────────── */
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: white;
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-input::placeholder {
+  color: rgb(255 255 255 / 0.35);
+}
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(45 91 227 / 0.25);
+}
+/* Select dropdowns need explicit option styling */
+.form-input option {
+  background: #0B1F4B;
+  color: white;
+}
+
+/* ── Phone prefix (+91) ──────────────────────────────── */
+
+.prefix {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgb(255 255 255 / 0.6);
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-right: none;
+  border-radius: 0.5rem 0 0 0.5rem;
+  white-space: nowrap;
+}
+
+/* ── Loading Spinner ──────────────────────────────────── */
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgb(255 255 255 / 0.3);
+  border-top-color: white;
+  border-radius: 9999px;
+  animation: spin 0.6s linear infinite;
+}
+
+/* ── Floating WhatsApp Button ─────────────────────────── */
+
+.floating-wa {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  border-radius: 9999px;
+  background: #25D366;
+  color: white;
+  box-shadow: 0 4px 16px rgb(37 211 102 / 0.35);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: wa-pulse 2.5s ease-in-out infinite;
+}
+.floating-wa:hover {
+  transform: scale(1.07);
+  box-shadow: 0 6px 24px rgb(37 211 102 / 0.45);
+}
+.floating-wa svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+.floating-wa span {
+  display: none;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  .floating-wa span {
+    display: inline;
+  }
+  .floating-wa {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    padding: 0.75rem 1.125rem;
+  }
+}
+@media (min-width: 1024px) {
+  .floating-wa {
+    bottom: 1.25rem;
+    left: 1.25rem;
+  }
+}
+
+/* ── Floating Mobile Demo CTA ─────────────────────────── */
+
+.floating-demo {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+}
+
+/* ── Safe area for mobile bottom insets ────────────────── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .floating-wa,
+  .floating-demo {
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* ==========================================================
+   Keyframe Animations
+   ========================================================== */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgb(37 211 102 / 0.35); }
+  50% { box-shadow: 0 4px 24px rgb(37 211 102 / 0.5), 0 0 0 8px rgb(37 211 102 / 0.1); }
 }
