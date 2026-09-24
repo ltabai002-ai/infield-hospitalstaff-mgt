@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      demo_requests: {
+        Row: {
+          created_at: string
+          email: string | null
+          hospital: string
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          role: string | null
+          staff_count: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          hospital: string
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          role?: string | null
+          staff_count?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          hospital?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          role?: string | null
+          staff_count?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
