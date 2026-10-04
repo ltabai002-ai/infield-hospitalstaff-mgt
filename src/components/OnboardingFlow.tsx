@@ -76,7 +76,7 @@ const initialForm: FormFields = {
 };
 
 export function OnboardingFlow() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
 
@@ -85,18 +85,8 @@ export function OnboardingFlow() {
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof FormFields, string>>>({});
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  useEffect(() => {
-    const hasCompleted = localStorage.getItem("infield7-onboarding-completed");
-    const forceShow = window.location.search.includes("onboarding=true");
-    if (!hasCompleted || forceShow) {
-      setIsOpen(true);
-    }
-  }, []);
-
   const handleComplete = () => {
-    localStorage.setItem("infield7-onboarding-completed", "true");
     setIsOpen(false);
-    console.log("Onboarding answers:", answers);
   };
 
   const handleNext = () => {
@@ -129,7 +119,7 @@ export function OnboardingFlow() {
   const validateForm = () => {
     const e: Partial<Record<keyof FormFields, string>> = {};
     if (formFields.name.trim().length < 2) e.name = "Please enter your full name.";
-    if (!/^[6-9]\d{9}$/.test(formFields.phone)) e.phone = "Enter a valid 10-digit mobile number.";
+    if (!formFields.phone.trim() || !/^\+?[0-9\s\-()]{6,20}$/.test(formFields.phone.trim())) e.phone = "Please enter a valid phone number with country code.";
     if (formFields.hospitalName.trim().length < 2) e.hospitalName = "Please enter your hospital name.";
     if (formFields.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formFields.email)) e.email = "Enter a valid email address.";
     if (!formFields.appointmentDate) e.appointmentDate = "Please select a preferred date.";
@@ -156,7 +146,7 @@ export function OnboardingFlow() {
     const calTitle = `Infield7 Demo – ${formFields.hospitalName.trim()}`;
     const calDetails = [
       `Demo appointment with ${formFields.name.trim()}`,
-      `Phone: +91 ${formFields.phone}`,
+      `Phone: ${formFields.phone.trim()}`,
       formFields.email && `Email: ${formFields.email}`,
       `Hospital: ${formFields.hospitalName.trim()}`,
       formFields.address && `Address: ${formFields.address.trim()}`,
@@ -181,7 +171,7 @@ export function OnboardingFlow() {
       "Hello Infield7 Team, I would like to book a demo appointment.",
       "",
       `Name: ${formFields.name.trim()}`,
-      `Phone: +91 ${formFields.phone}`,
+      `Phone: ${formFields.phone.trim()}`,
       formFields.email && `Email: ${formFields.email}`,
       `Hospital: ${formFields.hospitalName.trim()}`,
       formFields.address && `Address: ${formFields.address.trim()}`,
@@ -204,11 +194,12 @@ export function OnboardingFlow() {
       answers.size && `Staff Size: ${answers.size}`,
     ].filter(Boolean).join(", ");
 
-    fetch("https://script.google.com/macros/s/AKfycbzaVbib99TH3WWoMxxlzejvFCdMrMqS33GDJsh6KZobuWHLVU7GKt7VCVSL0BgusjUX7Q/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbyqPLyQCg-OsB_YpypRg3jSQXfeFK6Cn4nH-C1tSWn0rFqFlSE3PD1AouGs2x8IKrfv/exec", {
       method: "POST",
+      mode: "no-cors",
       body: JSON.stringify({
         name: formFields.name.trim(),
-        phone: `+91 ${formFields.phone}`,
+        phone: formFields.phone.trim(),
         email: formFields.email,
         hospitalName: formFields.hospitalName.trim(),
         address: formFields.address.trim(),
@@ -222,14 +213,7 @@ export function OnboardingFlow() {
       // Silently fail – WhatsApp is the fallback
     });
 
-    setFormSubmitted(true);
-
-    // Open WhatsApp
-    if (window.matchMedia("(max-width: 767px)").matches) {
-      window.location.href = waUrl;
-    } else {
-      window.open(waUrl, "_blank", "noopener,noreferrer");
-    }
+    handleComplete();
   };
 
   if (!isOpen) return null;
@@ -262,7 +246,7 @@ export function OnboardingFlow() {
           />
         </div>
 
-        {/* Header containing Logo and Skip button */}
+        {/* Header containing Logo and Explore website button */}
         <div className="flex justify-between items-center px-8 pt-8 md:px-12 md:pt-10">
           <div className="flex items-center">
             <img src="/logo.png" alt="Infield7 Logo" className="h-10 w-auto object-contain" />
@@ -270,9 +254,9 @@ export function OnboardingFlow() {
 
           <button 
             onClick={handleComplete} 
-            className="flex items-center gap-1.5 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-lg border border-border/60 hover:bg-muted/50"
           >
-            Move to the website <X size={16} />
+            Explore website <X size={14} />
           </button>
         </div>
 
@@ -301,20 +285,22 @@ export function OnboardingFlow() {
                     </div>
                     <h3 className="text-lg font-bold text-green-800">Appointment Requested!</h3>
                     <p className="mt-2 text-sm text-green-700">
-                      Please tap <b>"Send"</b> in WhatsApp to confirm your booking with our team.
+                      Thank you for submitting your details. Our team will contact you shortly to confirm your booking.
                     </p>
                     <Button className="mt-6" onClick={handleComplete}>
                       Explore the Website <ArrowRight size={16} className="ml-2" />
                     </Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleFormSubmit} noValidate>
+                  <form onSubmit={handleFormSubmit} noValidate autoComplete="off">
                     <div className="grid gap-4 sm:grid-cols-2">
                       {/* Full Name */}
                       <div>
                         <label className={labelClass}>Full Name *</label>
                         <input
                           className={inputClass}
+                          name="fullName"
+                          autoComplete="name"
                           placeholder="John Doe"
                           value={formFields.name}
                           onChange={e => setField("name", e.target.value)}
@@ -326,16 +312,15 @@ export function OnboardingFlow() {
                       {/* Phone */}
                       <div>
                         <label className={labelClass}>Phone Number *</label>
-                        <div className="flex">
-                          <span className="inline-flex items-center px-3 text-sm font-semibold text-muted-foreground bg-muted border border-r-0 border-border rounded-l-lg">+91</span>
-                          <input
-                            className={`${inputClass} rounded-l-none`}
-                            placeholder="9876543210"
-                            value={formFields.phone}
-                            onChange={e => setField("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                            inputMode="tel"
-                          />
-                        </div>
+                        <input
+                          className={inputClass}
+                          name="userPhone"
+                          autoComplete="tel"
+                          placeholder="+1 234 567 8900"
+                          value={formFields.phone}
+                          onChange={e => setField("phone", e.target.value.replace(/[^\d+()\s-]/g, ""))}
+                          inputMode="tel"
+                        />
                         {formErrors.phone && <span className={errorClass}>{formErrors.phone}</span>}
                       </div>
 
@@ -344,6 +329,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>Email</label>
                         <input
                           className={inputClass}
+                          name="userEmail"
+                          autoComplete="email"
                           placeholder="you@example.com"
                           value={formFields.email}
                           onChange={e => setField("email", e.target.value)}
@@ -358,6 +345,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>Hospital Name *</label>
                         <input
                           className={inputClass}
+                          name="hospitalName"
+                          autoComplete="organization"
                           placeholder="City General Hospital"
                           value={formFields.hospitalName}
                           onChange={e => setField("hospitalName", e.target.value)}
@@ -371,6 +360,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>Hospital Address</label>
                         <input
                           className={inputClass}
+                          name="hospitalAddress"
+                          autoComplete="street-address"
                           placeholder="123, Main Road, Near City Center"
                           value={formFields.address}
                           onChange={e => setField("address", e.target.value)}
@@ -383,6 +374,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>City / State</label>
                         <input
                           className={inputClass}
+                          name="hospitalCity"
+                          autoComplete="address-level2"
                           placeholder="Bangalore, Karnataka"
                           value={formFields.city}
                           onChange={e => setField("city", e.target.value)}
@@ -397,6 +390,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>Preferred Date *</label>
                         <input
                           className={inputClass}
+                          name="appointmentDate"
+                          autoComplete="off"
                           type="date"
                           value={formFields.appointmentDate}
                           onChange={e => setField("appointmentDate", e.target.value)}
@@ -410,6 +405,8 @@ export function OnboardingFlow() {
                         <label className={labelClass}>Preferred Time *</label>
                         <select
                           className={inputClass}
+                          name="appointmentTime"
+                          autoComplete="off"
                           value={formFields.appointmentTime}
                           onChange={e => setField("appointmentTime", e.target.value)}
                         >
@@ -443,6 +440,8 @@ export function OnboardingFlow() {
                       <label className={labelClass}>Message (optional)</label>
                       <textarea
                         className={`${inputClass} min-h-20 resize-y`}
+                        name="userMessage"
+                        autoComplete="off"
                         placeholder="Tell us anything else you'd like us to know..."
                         value={formFields.message}
                         onChange={e => setField("message", e.target.value)}
