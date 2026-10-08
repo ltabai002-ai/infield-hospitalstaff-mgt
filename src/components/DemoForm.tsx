@@ -4,7 +4,7 @@ import { submitDemoRequest } from "@/lib/demo.functions";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const waUrl = "https://wa.me/919164060961?text=Hi%20Infield7%20Team%2C%20I%27m%20interested%20in%20Infield7%20for%20Hospitals.";
+const waUrl = "https://wa.me/919164060961?text=Hi%20GetWardRoster%20Team%2C%20I%27m%20interested%20in%20GetWardRoster%20for%20Hospitals.";
 
 type Fields = {
   name: string;
@@ -79,7 +79,7 @@ export function DemoForm() {
 
   const buildUrl = () => {
     const lines = [
-      "Hello Infield7 Team, I would like a demo of Infield7 for Hospitals.",
+      "Hello GetWardRoster Team, I would like a demo of GetWardRoster for Hospitals.",
       "",
       `Name: ${fields.name.trim()}`,
       `Hospital: ${fields.hospital.trim()}`,

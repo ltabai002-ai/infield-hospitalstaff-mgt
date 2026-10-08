@@ -22,9 +22,9 @@ const deskPhoto = { url: "https://images.unsplash.com/photo-1579684385127-1ef15d
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Infield7 | Real-Time Staff Tracking Software for Hospital Management" },
+      { title: "GetWardRoster | Real-Time Staff Tracking Software for Hospital Management" },
       { name: "description", content: "Stop losing precious minutes during emergencies. Track your entire hospital staff in real-time. Know exactly who is available and where they are." },
-      { property: "og:title", content: "Infield7 | Staff Tracking Software for Hospital Management" },
+      { property: "og:title", content: "GetWardRoster | Staff Tracking Software for Hospital Management" },
       { property: "og:description", content: "Track your entire hospital staff in real-time. Know who is available, where they are, and contact the nearest person in one tap." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -34,14 +34,14 @@ export const Route = createFileRoute("/")({
   component: Infield7Page,
 });
 
-const waUrl = "https://wa.me/919164060961?text=Hi%20Infield7%20Team%2C%20I%27m%20interested%20in%20Infield7%20for%20Hospitals.";
+const waUrl = "https://wa.me/919164060961?text=Hi%20GetWardRoster%20Team%2C%20I%27m%20interested%20in%20GetWardRoster%20for%20Hospitals.";
 const nav = [["How It Works", "how-it-works"], ["Features", "features"], ["Departments", "departments"], ["Contact", "contact"]] as const;
 
 function scrollTo(id: string) { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }
 
 function Logo({ inverse = false }: { inverse?: boolean }) {
-  return <a href="#top" className="flex items-center" aria-label="Infield7 home">
-    <img src="/logo.png" alt="Infield7 Logo" className="h-10 w-auto object-contain" />
+  return <a href="#top" className="flex items-center" aria-label="GetWardRoster home">
+    <img src="/logo.png" alt="GetWardRoster Logo" className="h-10 w-auto object-contain" />
   </a>;
 }
 
@@ -123,7 +123,7 @@ function Hero() {
           </h1>
 
           <p className="mt-8 text-lg md:text-[19px] text-white/90 max-w-[500px] leading-relaxed">
-            Doctors, nurses, ward boys, and technicians are constantly moving. Infield7 gives you a live view of who is available, where they are, and how fast they can reach an emergency—all on one screen.
+            Doctors, nurses, ward boys, and technicians are constantly moving. GetWardRoster gives you a live view of who is available, where they are, and how fast they can reach an emergency—all on one screen.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
@@ -262,9 +262,9 @@ function PartnerWithUs() {
   </section>;
 }
 
-function FinalCta(){return <section id="contact" className="section bg-background"><div className="site-container"><div className="overflow-hidden rounded-xl bg-deep-navy shadow-card"><div className="grid lg:grid-cols-[.9fr_1.1fr]"><div className="relative min-h-[380px]"><img src={adminPhoto.url} alt="Hospital administrator looking at a phone" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0 bg-cta-overlay"/><div className="absolute inset-x-0 bottom-0 z-10 p-7 text-primary-foreground md:p-10"><h2 className="text-3xl font-bold md:text-4xl">See Infield7 Live in Your Hospital</h2><ul className="mt-5 space-y-3">{["Free personalised demo","Setup for all your departments","No obligation"].map(t=><li key={t} className="flex items-center gap-2 text-sm font-semibold"><Check size={18}/>{t}</li>)}</ul></div></div><div className="p-4 sm:p-7 lg:p-10"><DemoForm/></div></div></div><p className="mt-5 text-center text-xs font-semibold text-muted-foreground">🔒 Tracks staff only during duty hours · Staff consent built-in · Patient data is never tracked</p></div></section>}
+function FinalCta(){return <section id="contact" className="section bg-background"><div className="site-container"><div className="overflow-hidden rounded-xl bg-deep-navy shadow-card"><div className="grid lg:grid-cols-[.9fr_1.1fr]"><div className="relative min-h-[380px]"><img src={adminPhoto.url} alt="Hospital administrator looking at a phone" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0 bg-cta-overlay"/><div className="absolute inset-x-0 bottom-0 z-10 p-7 text-primary-foreground md:p-10"><h2 className="text-3xl font-bold md:text-4xl">See GetWardRoster Live in Your Hospital</h2><ul className="mt-5 space-y-3">{["Free personalised demo","Setup for all your departments","No obligation"].map(t=><li key={t} className="flex items-center gap-2 text-sm font-semibold"><Check size={18}/>{t}</li>)}</ul></div></div><div className="p-4 sm:p-7 lg:p-10"><DemoForm/></div></div></div><p className="mt-5 text-center text-xs font-semibold text-muted-foreground">🔒 Tracks staff only during duty hours · Staff consent built-in · Patient data is never tracked</p></div></section>}
 
-function Footer(){return <footer className="bg-deep-navy py-12 text-footer"><div className="site-container grid gap-8 md:grid-cols-[1fr_auto_auto]"><div><span className="inline-flex rounded-lg bg-background p-2"><Logo/></span><p className="mt-4 max-w-sm text-sm text-footer-muted">Real-time staff visibility for faster, calmer hospital response.</p></div><div><h3 className="font-bold text-primary-foreground">Explore</h3><div className="mt-4 grid gap-2 text-sm">{nav.map(([l,id])=><button key={id} className="text-left hover:text-primary-foreground" onClick={()=>scrollTo(id)}>{l}</button>)}</div></div><div><h3 className="font-bold text-primary-foreground">Contact</h3><div className="mt-4 space-y-2 text-sm"><a className="flex items-center gap-2" href="tel:+919164060961"><Phone size={15}/> +91 9164060961</a><a className="flex items-center gap-2" href={waUrl} target="_blank" rel="noreferrer"><MessageCircle size={15}/> WhatsApp</a></div></div></div><div className="site-container mt-10 flex flex-col gap-3 border-t border-footer-border pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"><p>© 2026 Infield7. All rights reserved.</p><div className="flex gap-5"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></footer>}
+function Footer(){return <footer className="bg-deep-navy py-12 text-footer"><div className="site-container grid gap-8 md:grid-cols-[1fr_auto_auto]"><div><span className="inline-flex rounded-lg bg-background p-2"><Logo/></span><p className="mt-4 max-w-sm text-sm text-footer-muted">Real-time staff visibility for faster, calmer hospital response.</p></div><div><h3 className="font-bold text-primary-foreground">Explore</h3><div className="mt-4 grid gap-2 text-sm">{nav.map(([l,id])=><button key={id} className="text-left hover:text-primary-foreground" onClick={()=>scrollTo(id)}>{l}</button>)}</div></div><div><h3 className="font-bold text-primary-foreground">Contact</h3><div className="mt-4 space-y-2 text-sm"><a className="flex items-center gap-2" href="tel:+919164060961"><Phone size={15}/> +91 9164060961</a><a className="flex items-center gap-2" href={waUrl} target="_blank" rel="noreferrer"><MessageCircle size={15}/> WhatsApp</a></div></div></div><div className="site-container mt-10 flex flex-col gap-3 border-t border-footer-border pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"><p>© 2026 GetWardRoster. All rights reserved. · Powered by Infield7</p><div className="flex gap-5"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></footer>}
 
 function FloatingActions(){const [contactVisible,setContactVisible]=useState(false);useEffect(()=>{const el=document.getElementById("contact");if(!el)return;const o=new IntersectionObserver(([entry])=>setContactVisible(entry.isIntersecting),{threshold:.1});o.observe(el);return()=>o.disconnect()},[]);return <><a className="floating-wa" href={waUrl} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="size-6" /></a>{!contactVisible&&<Button className="floating-demo md:hidden" onClick={()=>scrollTo("contact")}>Book a Free Demo</Button>}</>}
 function Infield7Page(){return <main className="overflow-x-clip"><Header/><Hero/><PainSection/><Departments/><Solution/><DarkBanner/><Nearest/><PartnerWithUs/><FinalCta/><Footer/><FloatingActions/><OnboardingFlow/></main>}

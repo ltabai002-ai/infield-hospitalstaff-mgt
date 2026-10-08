@@ -143,7 +143,7 @@ export function OnboardingFlow() {
     const formatGCalDate = (d: Date) =>
       d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 
-    const calTitle = `Infield7 Demo – ${formFields.hospitalName.trim()}`;
+    const calTitle = `GetWardRoster Demo – ${formFields.hospitalName.trim()}`;
     const calDetails = [
       `Demo appointment with ${formFields.name.trim()}`,
       `Phone: ${formFields.phone.trim()}`,
@@ -168,7 +168,7 @@ export function OnboardingFlow() {
 
     // Also build WhatsApp message
     const lines = [
-      "Hello Infield7 Team, I would like to book a demo appointment.",
+      "Hello GetWardRoster Team, I would like to book a demo appointment.",
       "",
       `Name: ${formFields.name.trim()}`,
       `Phone: ${formFields.phone.trim()}`,
@@ -249,7 +249,7 @@ export function OnboardingFlow() {
         {/* Header containing Logo and Explore website button */}
         <div className="flex justify-between items-center px-8 pt-8 md:px-12 md:pt-10">
           <div className="flex items-center">
-            <img src="/logo.png" alt="Infield7 Logo" className="h-10 w-auto object-contain" />
+            <img src="/logo.png" alt="GetWardRoster Logo" className="h-10 w-auto object-contain" />
           </div>
 
           <button 
