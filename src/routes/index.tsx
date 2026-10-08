@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
 });
 
 const waUrl = "https://wa.me/919164060961?text=Hi%20GetWardRoster%20Team%2C%20I%27m%20interested%20in%20GetWardRoster%20for%20Hospitals.";
-const nav = [["How It Works", "how-it-works"], ["Features", "features"], ["Departments", "departments"], ["Projects", "projects"], ["Contact", "contact"]] as const;
+const nav = [["How It Works", "how-it-works"], ["Features", "features"], ["Departments", "departments"], ["Contact", "contact"]] as const;
 
 function scrollTo(id: string) { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }
 
@@ -245,53 +245,6 @@ function Departments() { return <section id="departments" className="section bg-
     </div></section>; }
 
 
-function ProjectsSection() {
-  return (
-    <section id="projects" className="section bg-background pt-24 pb-20 border-b border-border/50">
-      <div className="site-container">
-        <Reveal>
-          <SectionHeading
-            center
-            eyebrow="OUR PROJECTS"
-            title="Featured Projects"
-            sub="Explore our featured platforms and custom solutions built for digital operations."
-          />
-        </Reveal>
-        <Reveal className="mt-12 max-w-4xl mx-auto" delay={0.1}>
-          <a
-            href="https://tournament7.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="group block overflow-hidden rounded-2xl border border-border bg-card shadow-card transition-all duration-300 hover:shadow-2xl hover:border-primary/50"
-          >
-            <div className="relative overflow-hidden aspect-[16/9] sm:aspect-[21/9]">
-              <img
-                src="/tournament7.png"
-                alt="Tournament7 Platform"
-                loading="lazy"
-                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-deep-navy/90 via-deep-navy/30 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-            </div>
-            <div className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold text-primary tracking-wider uppercase mb-1 block">Featured Platform</span>
-                <h3 className="text-2xl font-extrabold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                  Tournament7 <ArrowRight size={20} className="transition-transform group-hover:translate-x-1 text-primary"/>
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">Visit tournament7.com for live tournament registration and details.</p>
-              </div>
-              <Button variant="outline" className="shrink-0 gap-2 border-primary/30 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                Visit Website <ArrowRight size={16}/>
-              </Button>
-            </div>
-          </a>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 function PartnerWithUs() {
   return <section className="section bg-light-blue pt-24 pb-20 border-b border-border/50">
     <div className="site-container max-w-4xl text-center">
@@ -316,4 +269,4 @@ function FinalCta(){return <section id="contact" className="section bg-backgroun
 function Footer(){return <footer className="bg-deep-navy py-12 text-footer"><div className="site-container grid gap-8 md:grid-cols-[1fr_auto_auto]"><div><span className="inline-flex rounded-lg bg-background p-2"><Logo/></span><p className="mt-4 max-w-sm text-sm text-footer-muted">Real-time staff visibility for faster, calmer hospital response.</p></div><div><h3 className="font-bold text-primary-foreground">Explore</h3><div className="mt-4 grid gap-2 text-sm">{nav.map(([l,id])=><button key={id} className="text-left hover:text-primary-foreground" onClick={()=>scrollTo(id)}>{l}</button>)}</div></div><div><h3 className="font-bold text-primary-foreground">Contact</h3><div className="mt-4 space-y-2 text-sm"><a className="flex items-center gap-2" href="tel:+919164060961"><Phone size={15}/> +91 9164060961</a><a className="flex items-center gap-2" href={waUrl} target="_blank" rel="noreferrer"><MessageCircle size={15}/> WhatsApp</a></div></div></div><div className="site-container mt-10 flex flex-col gap-3 border-t border-footer-border pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"><p>© 2026 GetWardRoster. All rights reserved. · Powered by Infield7</p><div className="flex gap-5"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></footer>}
 
 function FloatingActions(){const [contactVisible,setContactVisible]=useState(false);useEffect(()=>{const el=document.getElementById("contact");if(!el)return;const o=new IntersectionObserver(([entry])=>setContactVisible(entry?.isIntersecting ?? false),{threshold:.1});o.observe(el);return()=>o.disconnect()},[]);return <><a className="floating-wa" href={waUrl} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="size-6" /></a>{!contactVisible&&<Button className="floating-demo md:hidden" onClick={()=>scrollTo("contact")}>Book a Free Demo</Button>}</>}
-function Infield7Page(){return <main className="overflow-x-clip"><Header/><Hero/><PainSection/><Departments/><Solution/><DarkBanner/><Nearest/><ProjectsSection/><PartnerWithUs/><FinalCta/><Footer/><FloatingActions/><OnboardingFlow/></main>}
+function Infield7Page(){return <main className="overflow-x-clip"><Header/><Hero/><PainSection/><Departments/><Solution/><DarkBanner/><Nearest/><PartnerWithUs/><FinalCta/><Footer/><FloatingActions/><OnboardingFlow/></main>}
