@@ -153,9 +153,9 @@ export function OnboardingFlow() {
       formFields.city && `City: ${formFields.city.trim()}`,
       formFields.message && `Note: ${formFields.message.trim()}`,
       "",
-      answers.role && `Role: ${answers.role}`,
-      answers.challenge && `Biggest Challenge: ${answers.challenge}`,
-      answers.size && `Staff Size: ${answers.size}`,
+      answers['role'] && `Role: ${answers['role']}`,
+      answers['challenge'] && `Biggest Challenge: ${answers['challenge']}`,
+      answers['size'] && `Staff Size: ${answers['size']}`,
     ].filter(Boolean).join("\n");
 
     const calLocation = [
@@ -180,18 +180,18 @@ export function OnboardingFlow() {
       `Preferred Time: ${timeStr}`,
       formFields.message && `Message: ${formFields.message.trim()}`,
       "",
-      answers.role && `Role: ${answers.role}`,
-      answers.challenge && `Biggest Challenge: ${answers.challenge}`,
-      answers.size && `Staff Size: ${answers.size}`,
+      answers['role'] && `Role: ${answers['role']}`,
+      answers['challenge'] && `Biggest Challenge: ${answers['challenge']}`,
+      answers['size'] && `Staff Size: ${answers['size']}`,
     ].filter(Boolean).join("\n");
 
     const waUrl = `https://wa.me/919164060961?text=${encodeURIComponent(lines)}`;
 
     // ── Push data to Google Sheet ──────────────────────
     const questionnaire = [
-      answers.role && `Role: ${answers.role}`,
-      answers.challenge && `Challenge: ${answers.challenge}`,
-      answers.size && `Staff Size: ${answers.size}`,
+      answers['role'] && `Role: ${answers['role']}`,
+      answers['challenge'] && `Challenge: ${answers['challenge']}`,
+      answers['size'] && `Staff Size: ${answers['size']}`,
     ].filter(Boolean).join(", ");
 
     fetch("https://script.google.com/macros/s/AKfycbyqPLyQCg-OsB_YpypRg3jSQXfeFK6Cn4nH-C1tSWn0rFqFlSE3PD1AouGs2x8IKrfv/exec", {

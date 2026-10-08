@@ -28,6 +28,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Track your entire hospital staff in real-time. Know who is available, where they are, and contact the nearest person in one tap." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: heroPhoto.url },
+      { name: "twitter:image", content: heroPhoto.url },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
@@ -76,7 +78,7 @@ function Header() {
 
 function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null); const reduced = useReducedMotion(); const seen = useInView(ref, { once: true, margin: "-70px" });
-  return <motion.div ref={ref} className={className} initial={reduced ? false : { opacity: 0, y: 28 }} animate={seen ? { opacity: 1, y: 0 } : undefined} transition={{ duration: .55, delay }}>{children}</motion.div>;
+  return <motion.div ref={ref} className={className} initial={reduced ? false : { opacity: 0, y: 28 }} animate={seen || reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }} transition={{ duration: .55, delay }}>{children}</motion.div>;
 }
 
 function Eyebrow({ children }: { children: ReactNode }) { return <p className="mb-3 text-xs font-extrabold uppercase text-primary">{children}</p>; }
@@ -266,5 +268,5 @@ function FinalCta(){return <section id="contact" className="section bg-backgroun
 
 function Footer(){return <footer className="bg-deep-navy py-12 text-footer"><div className="site-container grid gap-8 md:grid-cols-[1fr_auto_auto]"><div><span className="inline-flex rounded-lg bg-background p-2"><Logo/></span><p className="mt-4 max-w-sm text-sm text-footer-muted">Real-time staff visibility for faster, calmer hospital response.</p></div><div><h3 className="font-bold text-primary-foreground">Explore</h3><div className="mt-4 grid gap-2 text-sm">{nav.map(([l,id])=><button key={id} className="text-left hover:text-primary-foreground" onClick={()=>scrollTo(id)}>{l}</button>)}</div></div><div><h3 className="font-bold text-primary-foreground">Contact</h3><div className="mt-4 space-y-2 text-sm"><a className="flex items-center gap-2" href="tel:+919164060961"><Phone size={15}/> +91 9164060961</a><a className="flex items-center gap-2" href={waUrl} target="_blank" rel="noreferrer"><MessageCircle size={15}/> WhatsApp</a></div></div></div><div className="site-container mt-10 flex flex-col gap-3 border-t border-footer-border pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"><p>© 2026 GetWardRoster. All rights reserved. · Powered by Infield7</p><div className="flex gap-5"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></footer>}
 
-function FloatingActions(){const [contactVisible,setContactVisible]=useState(false);useEffect(()=>{const el=document.getElementById("contact");if(!el)return;const o=new IntersectionObserver(([entry])=>setContactVisible(entry.isIntersecting),{threshold:.1});o.observe(el);return()=>o.disconnect()},[]);return <><a className="floating-wa" href={waUrl} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="size-6" /></a>{!contactVisible&&<Button className="floating-demo md:hidden" onClick={()=>scrollTo("contact")}>Book a Free Demo</Button>}</>}
+function FloatingActions(){const [contactVisible,setContactVisible]=useState(false);useEffect(()=>{const el=document.getElementById("contact");if(!el)return;const o=new IntersectionObserver(([entry])=>setContactVisible(entry?.isIntersecting ?? false),{threshold:.1});o.observe(el);return()=>o.disconnect()},[]);return <><a className="floating-wa" href={waUrl} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="size-6" /></a>{!contactVisible&&<Button className="floating-demo md:hidden" onClick={()=>scrollTo("contact")}>Book a Free Demo</Button>}</>}
 function Infield7Page(){return <main className="overflow-x-clip"><Header/><Hero/><PainSection/><Departments/><Solution/><DarkBanner/><Nearest/><PartnerWithUs/><FinalCta/><Footer/><FloatingActions/><OnboardingFlow/></main>}
